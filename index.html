@@ -95,14 +95,194 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
+
+      if (!firstNum || !secondNum) {
+        throw new NullElementError("Invalid Input: No value given");
+      }
+      if (isNaN(firstNum) || isNaN(secondNum)) {
+        throw new InvalidOperatorError("Invalid Input: Not a Number");
+      }
       output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
     });
 
-    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+    // Console.log button
+    const consoleLog = errorBtns[0];
+    consoleLog.addEventListener("click", () => {
+      console.log("Console Log Demo");
+    });
 
-    // Start your code here
-    // You may move this JS to another file if you wish
+    // Console.error button
+    const consoleErr = errorBtns[1];
+    consoleErr.addEventListener("click", () => {
+      console.error("Console Error Demo");
+    });
+
+    // Console.count button
+    const consoleCount = errorBtns[2];
+    consoleCount.addEventListener("click", () => {
+      console.count("Count Button");
+    });
+
+    // Console.warn button
+    const consoleWarn = errorBtns[3];
+    consoleWarn.addEventListener("click", () => {
+      console.warn("Console Warn Button");
+    });
+
+    // Console.assert button
+    const consoleAssert = errorBtns[4];
+    const oddNumber = 9;
+    const errMessage = "The given number is not even";
+    consoleAssert.addEventListener("click", () => {
+      console.assert(oddNumber % 2 === 0, "%o", { oddNumber, errMessage });
+    });
+
+    // Console.clear button
+    const consoleClear = errorBtns[5];
+    consoleClear.addEventListener("click", () => {
+      console.clear();
+    });
+
+    // Console.Dir button
+    const consoleDir = errorBtns[6];
+    consoleDir.addEventListener("click", () => {
+      console.dir(consoleDir);
+    });
+
+    // Console.dirxml button
+    const consoleDirXML = errorBtns[7];
+    consoleDirXML.addEventListener("click", () => {
+      console.dirxml(consoleDir);
+    });
+
+    // Console.group start button
+    const consoleGroupStart = errorBtns[8];
+    consoleGroupStart.addEventListener("click", () => {
+      console.group();
+    });
+
+    // Console.group end button
+    const consoleGroupEnd = errorBtns[9];
+    consoleGroupEnd.addEventListener("click", () => {
+      console.groupEnd();
+    });
+
+    // Console.table
+    const consoleTable = errorBtns[10];
+
+    function ECECourse(courseName, courseNumber) {
+        this.courseName = courseName
+        this.courseNumber = courseNumber;
+    }
+    const programming = new ECECourse("Engineering Computation", "15");
+    const digitalDesign = new ECECourse("Digital Design", "25");
+    const analogDesign = new ECECourse("Analog Design", "35");
+
+    consoleTable.addEventListener("click", () => {
+      console.table([programming, digitalDesign, analogDesign]);
+    });
+
+    // Console.timer start button
+    const consoleTimerStart = errorBtns[11];
+    consoleTimerStart.addEventListener("click", () => {
+      console.time("Timer button");
+    });
+
+    // Console.timer end button
+    const consoleTimerEnd = errorBtns[12];
+    consoleTimerEnd.addEventListener("click", () => {
+      console.timeEnd("Timer button");
+    });
+
+    // Console.track button
+    const consoleTrace = errorBtns[13];
+    consoleTrace.addEventListener("click", () => {
+      function outer() {
+         function inner() {
+             console.trace();
+         }
+         inner();
+      }
+      outer();
+    });
+
+    // Trigger a global error button
+    const globalErrorButton = errorBtns[14];
+    globalErrorButton.addEventListener("click", () => {
+      testError();
+    });
+
+    class ParseJSONError extends Error {
+      constructor(message, cause) {
+        super(message);
+        this.cause = cause;
+        this.name = 'ParseJSONError';
+      }
+    }
+
+    class InvalidOperatorError extends Error {
+      constructor(message, cause) {
+        super(message);
+        this.cause = cause;
+        this.name = 'InvalidOperatorError';
+      }
+    }
+    class NullElementError extends Error {
+      constructor(message, cause) {
+        super(message);
+        this.cause = cause;
+        this.name = 'NullElementError';
+      }
+    }
+    
+    function consoleLogNameAge(data) {
+      let user = null;
+        try {
+            user = JSON.parse(data); 
+            console.log(user.name + " is age " + user.age);
+        } catch(error) {
+            throw new ParseJSONError("Cannot parse illformed JSON.", error);
+            console.error("[ERROR] Data fetched from server is illformed");
+            console.error( error.name );
+            console.error( error.message );
+        } finally {
+            console.log("Finished fetching user data from server ");
+        }
+    }
+
+    // Step 3 and 4: Experimenting with Try/Catch, and Custom Errors
+    let invalidJSON = '{"name": "Kyle" "age": 20}'; 
+    let validJSON = '{"name": "Nick", "age": 24}'; 
+    consoleLogNameAge(invalidJSON);
+    consoleLogNameAge(validJSON);
+
+   function testError() {
+     const nullElement = document.querySelector("#NullElement");
+     nullElement.hidden = false;
+   }
+
+    // Step 5: Global error handler 
+      // Reference: https://developer.mozilla.org/en-US/docs/Web/API/Window/error_event
+      window.onerror = (event, source, lineno, colno, error) => {
+          console.log(`message: ${event}`);
+          console.log(`source: ${source}`);
+          console.log(`lineno: ${lineno}`);
+          console.log(`colno: ${colno}`);
+          console.log(`error: ${error}`);
+    };
+
   </script>
+
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "09c01997c9124368a56e83bc0b0d9118"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+    TrackJS.track('Testing TrackJS!');
+
+  </script>
+
 </body>
 
 </html>
