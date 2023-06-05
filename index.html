@@ -105,6 +105,8 @@
       output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
     });
 
+    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+
     // Console.log button
     const consoleLog = errorBtns[0];
     consoleLog.addEventListener("click", () => {
